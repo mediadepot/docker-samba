@@ -1,0 +1,77 @@
+#!/bin/sh
+
+
+
+echo "" > /config/samba-shares.conf
+
+# setup initial shares.
+cat <<EOT >> /config/samba-shares.conf
+
+[blackhole]
+  path = /media/temp/blackhole
+  create mask = 0770
+  directory mask = 0770
+  read only = no
+  available = yes
+  browseable = yes
+  writable = yes
+  guest ok = no
+  printable = no
+  force user = depot
+  force create mode = 0770
+  force directory mode = 0770
+
+[processing]
+  path = /media/temp/processing
+  create mask = 0770
+  directory mask = 0770
+  read only = no
+  available = yes
+  browseable = yes
+  writable = yes
+  guest ok = no
+  printable = no
+  force user = depot
+  force create mode = 0770
+  force directory mode = 0770
+
+EOT
+
+
+
+
+for f in *; do
+    if [ -d ${f} ]; then
+        # Will not run if no directories are available
+cat <<EOT >> /config/samba-shares.conf
+
+[${f}]
+  path = /media/storage/${f}
+  create mask = 0770
+  directory mask = 0770
+  read only = no
+  available = yes
+  browseable = yes
+  writable = yes
+  guest ok = no
+  printable = no
+  force user = depot
+  force create mode = 0770
+  force directory mode = 0770
+
+EOT
+    fi
+done
+
+
+exec /usr/bin/samba.sh \
+    -w "WORKGROUP" \
+    -g "unix extensions = no" \
+    -g "wide links = yes" \
+    -g "ntlm auth = no" \
+    -g "lanman auth = no" \
+    -g "client ntlmv2 auth = yes" \
+    -g "veto files = /._*/.DS_Store/.AppleDouble/.Trashes/.TemporaryItems/" \
+    -g "delete veto files = yes" \
+    -u "depot;badpass;15000;15000" \
+    -I "/config/samba-shares.conf"
