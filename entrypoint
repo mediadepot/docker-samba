@@ -66,6 +66,7 @@ done
 
 exec /usr/bin/samba.sh \
     -w "WORKGROUP" \
+    -g "server string = Depot Samba" \
     -g "log level = 3 passdb:5 auth:5" \
     -g "unix extensions = no" \
     -g "wide links = yes" \
