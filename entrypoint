@@ -75,5 +75,6 @@ exec /usr/bin/samba.sh \
     -g "client ntlmv2 auth = yes" \
     -g "veto files = /._*/.DS_Store/.AppleDouble/.Trashes/.TemporaryItems/" \
     -g "delete veto files = yes" \
+    -g "min protocol = NT1" \
     -u "${SAMBA_USERNAME};${SAMBA_PASSWORD};15000;15000" \
     -I "/config/samba-shares.conf"
