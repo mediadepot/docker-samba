@@ -77,4 +77,5 @@ exec /usr/bin/samba.sh \
     -g "delete veto files = yes" \
     -g "server min protocol = NT1" \
     -u "${SAMBA_USERNAME};${SAMBA_PASSWORD};15000;15000" \
-    -I "/config/samba-shares.conf"
+    -I "/config/samba-shares.conf" \
+    "$@"
