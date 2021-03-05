@@ -1,6 +1,9 @@
 name: Build Docker Image
 # This workflow is triggered on a schedule and can also be triggered manually
 on:
+  push:
+    branches:
+      - 'master'
   workflow_dispatch:
     inputs:
 
